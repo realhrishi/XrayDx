@@ -28,39 +28,129 @@
         </div>
 
         <div class="centered-content-wrapper">
-            <section class="glass-card fade-in-up">
-                <div class="upload-area">
-                    <div class="upload-icon">
+            <section class="glass-card fade-in-up" id="uploadContainer">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon" id="uploadIcon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="17 8 12 3 7 8"></polyline>
                             <line x1="12" y1="3" x2="12" y2="15"></line>
                         </svg>
                     </div>
-                    <h3>Drag & Drop X-ray Image</h3>
-                    <p>or click to browse your files</p>
-                    <button class="upload-btn">Upload Image</button>
+                    <img id="imagePreview" src="" alt="X-ray Preview" style="display: none;">
+                    <h3 id="uploadTitle">Drag & Drop X-ray Image</h3>
+                    <p id="uploadSubtitle">or click to browse your files</p>
+                    <button class="upload-btn" id="triggerUploadBtn">Select File</button>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+                
+                <div class="predict-action-wrapper" id="predictActionWrapper" style="display: none;">
+                    <button class="predict-action-btn" id="predictActionBtn">Predict Fracture</button>
                 </div>
             </section>
 
-            <div class="predict-grid fade-in-up">
-                <div class="glass-card feature-card">
-                    <h3>Fracture Detection</h3>
-                    <p>Rapid identification of distal radius and ulna fractures using state-of-the-art CNN architecture.</p>
+            <!-- Loading State -->
+            <div id="predictionLoading" class="prediction-loading" style="display: none;">
+                <div class="spinner"></div>
+                <p id="loadingText">Analyzing X-ray...</p>
+            </div>
+
+            <!-- Prediction Dashboard -->
+            <div id="predictionDashboard" class="prediction-dashboard-wrapper fade-in-up" style="display: none;">
+                
+                <!-- Section 1: Detection Result -->
+                <div class="result-card section-image">
+                    <h3 class="card-label">DETECTION RESULT</h3>
+                    <div class="annotated-image-placeholder">
+                        <img id="resultImage" src="https://images.unsplash.com/photo-1516110833967-0b5716ca1387?q=80&w=1000&auto=format&fit=crop" alt="Annotated X-ray Placeholder">
+                        <div class="bounding-box-placeholder">
+                            <span class="box-label">Fracture 92.8%</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-card feature-card">
-                    <h3>Confidence Score</h3>
-                    <p>Get a precise probability score detailing the AI model's certainty regarding the detected anomalies.</p>
+
+                <div class="dashboard-grid">
+                    <!-- Section 2: Fracture Status -->
+                    <div class="result-card section-status">
+                        <h3 class="card-label">FRACTURE STATUS</h3>
+                        <div class="metric-content">
+                            <div class="icon-box icon-red">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </div>
+                            <div class="metric-text">
+                                <span class="metric-title text-red" id="statusText">Fracture Detected</span>
+                                <span class="metric-subtitle">The model has detected a fracture.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Fracture Type -->
+                    <div class="result-card section-type">
+                        <h3 class="card-label">PREDICTED FRACTURE TYPE</h3>
+                        <div class="metric-content">
+                            <div class="icon-box icon-blue">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M22 12.5a4.5 4.5 0 0 0-8.5-2.5 4.5 4.5 0 0 0-4-4A4.5 4.5 0 0 0 2 10.5 4.5 4.5 0 0 0 7.5 15a4.5 4.5 0 0 0 4 4 4.5 4.5 0 0 0 8.5-2.5c0-1.25-.5-2.4-1.33-3.23-.38-.38-.67-.84-.67-1.27z"></path></svg>
+                            </div>
+                            <div class="metric-text">
+                                <span class="metric-title text-white" id="typeText">Distal Radius Fracture</span>
+                                <span class="metric-subtitle">The predicted type of fracture.</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-card feature-card">
-                    <h3>Fast Analysis</h3>
-                    <p>Results delivered in milliseconds, providing an immediate secondary screening for radiologists.</p>
+
+                <!-- Section 4: Model Confidence -->
+                <div class="result-card section-confidence">
+                    <h3 class="card-label">MODEL CONFIDENCE</h3>
+                    <div class="confidence-content">
+                        <span class="confidence-value" id="confidenceValue">92.8%</span>
+                        <span class="metric-subtitle text-center">High confidence prediction</span>
+                        <div class="confidence-track">
+                            <div class="confidence-bar" id="confidenceBar" style="width: 0%;"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="glass-card feature-card">
-                    <h3>Detailed Report</h3>
-                    <p>Comprehensive heatmap overlays highlighting the exact regions of interest considered by the model.</p>
+
+                <!-- Section 5: AI Summary -->
+                <div class="result-card section-summary">
+                    <div class="summary-layout">
+                        <div class="icon-box icon-purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><line x1="9" y1="10" x2="15" y2="10"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+                        </div>
+                        <div class="summary-content">
+                            <h3 class="card-label">AI ANALYSIS SUMMARY</h3>
+                            <p id="summaryText">The model identified a suspected distal radius fracture in the left wrist region. The detected abnormality is localized near the metaphyseal area and exhibits characteristic fracture patterns commonly observed in pediatric radiographs.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Recommendations -->
+                <div class="result-card section-recommendations">
+                    <div class="summary-layout">
+                        <div class="icon-box icon-green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+                        </div>
+                        <div class="recommendations-content">
+                            <h3 class="card-label">RECOMMENDATIONS</h3>
+                            <div class="rec-grid">
+                                <ul class="rec-list" id="recList">
+                                    <li><span class="check-icon">✓</span> Consult an orthopedic specialist.</li>
+                                    <li><span class="check-icon">✓</span> Obtain professional radiological review.</li>
+                                    <li><span class="check-icon">✓</span> Limit wrist movement and avoid strenuous activities.</li>
+                                    <li><span class="check-icon">✓</span> Schedule a follow-up evaluation.</li>
+                                </ul>
+                                <div class="disclaimer-card">
+                                    <div class="disclaimer-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    </div>
+                                    <p>This AI system is intended for research and screening purposes only and should not replace professional medical diagnosis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
     </main>
 

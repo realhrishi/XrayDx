@@ -6,7 +6,7 @@
     <title>About - XrayDx</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-page">
+<body class="bg-page about-page">
     <nav class="navbar">
         <div class="logo">XrayDx</div>
         <ul class="nav-links">
@@ -22,42 +22,98 @@
     </nav>
 
     <main class="page-container">
-        <div class="page-header fade-in-up">
-            <h1>About The Project</h1>
-            <p>Discover the technology behind XrayDx.</p>
-        </div>
-
         <div class="centered-content-wrapper">
-            <div class="about-grid">
-                <section class="glass-card fade-in-up">
-                    <h3>Project Overview</h3>
-                    <p>XrayDx is a cutting-edge AI-powered platform designed to assist medical professionals in detecting bone fractures rapidly and accurately from standard X-ray imaging. By automating the preliminary screening process, we enable doctors to focus on diagnosis and treatment.</p>
-                </section>
-
-                <section class="glass-card fade-in-up">
-                    <h3>Problem Statement</h3>
-                    <p>In high-stress medical environments, diagnosing fractures can sometimes be delayed or missed due to subtle imaging details or extreme fatigue. An automated, secondary screening tool can significantly reduce oversight and improve patient outcomes.</p>
-                </section>
+            <div class="about-header fade-in-up">
+                <h1 class="main-heading">About The Project</h1>
+                <p class="subtitle">Discover the research and technology behind XrayDx.</p>
+            </div>
+            
+            <div class="about-journey-container">
                 
-                <section class="glass-card fade-in-up">
-                    <h3>Technology Used</h3>
-                    <p>Our platform is built using a modern, scalable tech stack. The frontend utilizes responsive HTML5 and Vanilla CSS glassmorphism, while the backend relies on high-performance Python frameworks optimized for rapid image processing.</p>
-                </section>
+                <!-- CARD 1 -->
+                <article class="journey-card fade-in-up">
+                    <div class="journey-text">
+                        <span class="card-number">01</span>
+                        <h2>The Challenge</h2>
+                        <p>Bone fracture diagnosis is often time-sensitive and highly dependent on expert interpretation. Subtle fracture patterns can be easily overlooked, especially in high-volume clinical settings. XrayDx explores how AI can assist healthcare professionals by providing rapid and reliable fracture localization from X-ray images.</p>
+                    </div>
+                    <div class="journey-image">
+                        <img src="card1.png" alt="Doctor examining X-ray">
+                    </div>
+                </article>
 
-                <section class="glass-card fade-in-up">
-                    <h3>AI Model Information</h3>
-                    <p>The core of XrayDx utilizes a state-of-the-art Convolutional Neural Network (CNN) trained on thousands of expertly annotated radiological images. The model focuses heavily on feature extraction, achieving high sensitivity and specificity in detecting micro-fractures.</p>
-                </section>
+                <!-- CARD 2 -->
+                <article class="journey-card fade-in-up">
+                    <div class="journey-text">
+                        <span class="card-number">02</span>
+                        <h2>Understanding Existing Approaches</h2>
+                        <p>We reviewed leading fracture detection architectures including <a href="https://arxiv.org/pdf/2402.09329" target="_blank" class="text-link">YOLOv8-AM</a>, <a href="https://www.nature.com/articles/s41598-024-77878-6" target="_blank" class="text-link">WCAY</a>, <a href="https://www.mdpi.com/2227-7390/13/9/1419" target="_blank" class="text-link">YOLOv11-GAM</a>, and <a href="https://www.researchgate.net/publication/395122239_FracFusionNet_A_Multi-Level_Feature_Fusion_Convolutional_Network_for_Bone_Fracture_Detection_in_Radiographic_Images" target="_blank" class="text-link">FracFusionNet</a>. Studying these systems helped us understand modern attention mechanisms, feature extraction strategies, and the current limitations of automated fracture detection.</p>
+                    </div>
+                    <div class="journey-image">
+                        <img src="card2.png" alt="Research literature and notes">
+                    </div>
+                </article>
 
-                <section class="glass-card fade-in-up">
-                    <h3>Impact</h3>
-                    <p>By deploying AI as a reliable secondary reader, we aim to drastically reduce the time patients wait in the emergency room for an initial radiographic read, lowering hospital bottlenecks and minimizing human error during overnight shifts.</p>
-                </section>
+                <!-- CARD 3 -->
+                <article class="journey-card fade-in-up">
+                    <div class="journey-text">
+                        <span class="card-number">03</span>
+                        <h2>Building the Foundation</h2>
+                        <p>To train and evaluate our models, we explored several publicly available medical imaging datasets including <a href="https://www.nature.com/articles/s41597-022-01328-z" target="_blank" class="text-link">GRAZPEDWRI-DX</a>, <a href="https://www.kaggle.com/datasets/akshayramakrishnan28/fracture-classification-dataset" target="_blank" class="text-link">FracAtlas</a>, <a href="https://www.kaggle.com/datasets/bmadushanirodrigo/fracture-multi-region-x-ray-data/data" target="_blank" class="text-link">BFMRX</a>, and <a href="https://www.kaggle.com/datasets/pkdarabi/bone-fracture-detection-computer-vision-project" target="_blank" class="text-link">other</a> fracture-focused radiographic datasets. After evaluating annotation quality, dataset diversity, and suitability for object detection, we selected high-quality fracture datasets containing expert-labeled X-ray images.</p>
+                    </div>
+                    <div class="journey-image">
+                        <img src="card3.png" alt="Medical data and analysis">
+                    </div>
+                </article>
 
-                <section class="glass-card fade-in-up">
-                    <h3>Future Scope</h3>
-                    <p>Future iterations aim to detect more complex pathologies, integrate directly with hospital PACS systems, and provide real-time 3D reconstruction from 2D scans for comprehensive surgical planning.</p>
-                </section>
+                <!-- CARD 4 -->
+                <article class="journey-card fade-in-up">
+                    <div class="journey-text">
+                        <span class="card-number">04</span>
+                        <h2>From Baselines to Innovation</h2>
+                        <p>Our research began with reproducing and analyzing baseline YOLO-based fracture detection models. These experiments provided valuable insights into small-object detection, multi-scale feature learning, and the unique challenges presented by pediatric wrist radiographs.</p>
+                    </div>
+                    <div class="journey-image">
+                        <img src="card4.png" alt="Code and architecture models">
+                    </div>
+                </article>
+
+                <!-- CARD 5 -->
+                <article class="journey-card fade-in-up">
+                    <div class="journey-text">
+                        <span class="card-number">05</span>
+                        <h2>YOLOv11 + Dynamic Snake Convolution + ResCBAM</h2>
+                        <p>Our proposed architecture combines YOLOv11 with Dynamic Snake Convolution and ResCBAM attention modules. This design enhances feature extraction, improves focus on fracture-relevant regions, and enables more adaptive learning of subtle bone fracture patterns.</p>
+                    </div>
+                    <div class="journey-image">
+                        <img src="card5.png" alt="Neural network architecture abstraction">
+                    </div>
+                </article>
+
+                <!-- CARD 6 -->
+                <article class="journey-card fade-in-up">
+                    <div class="journey-text">
+                        <span class="card-number">06</span>
+                        <h2>Building XrayDx</h2>
+                        <p>To make our research accessible, we developed XrayDx as a modern web platform for AI-assisted fracture detection. The system combines advanced computer vision models with an intuitive interface that allows users to upload and analyze X-ray images effortlessly.</p>
+                    </div>
+                    <div class="journey-image">
+                        <img src="card6.jpg" alt="Modern dashboard and interface">
+                    </div>
+                </article>
+
+                <!-- CARD 7 -->
+                <article class="journey-card fade-in-up">
+                    <div class="journey-text">
+                        <span class="card-number">07</span>
+                        <h2>Future Scope & Research Impact</h2>
+                        <p>Developed during a Summer Research Internship at <a href="https://iitbhu.ac.in/" target="_blank" class="text-link">IIT (BHU)</a> Varanasi, this project investigates a novel fracture detection pipeline built on YOLOv11, DSC, and ResCBAM. The architecture presents promising opportunities for future research in medical imaging and AI-assisted diagnosis.</p>
+                    </div>
+                    <div class="journey-image">
+                        <img src="card7A.jpg" alt="University campus and research">
+                    </div>
+                </article>
+
             </div>
         </div>
     </main>
