@@ -1,3 +1,7 @@
+const SUPABASE_URL = 'https://svcuzduoiuovwjtiovdr.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_T_sWCXdzP1SFTJoG81DNnA_wAiX6Dby';
+const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const canvas = document.getElementById("hero-lightpass");
 
 if (canvas) {
@@ -120,16 +124,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="auth-form-wrapper active" id="loginFormWrapper">
                     <h2>Welcome Back</h2>
                     <p class="auth-subtitle">Sign in to continue using XrayDx.</p>
+                    <div id="loginMessage" style="margin-bottom: 15px; font-size: 0.9rem;"></div>
                     
                     <form id="loginForm">
                         <div class="input-group">
                             <label>EMAIL ADDRESS</label>
-                            <input type="email" placeholder="hrishirajchowdhuryofficial@gmail.com" required>
+                            <input type="email" id="loginEmail" placeholder="hrishirajchowdhuryofficial@gmail.com" required>
                         </div>
                         <div class="input-group">
                             <label>PASSWORD</label>
                             <div class="password-wrapper">
-                                <input type="password" placeholder="••••••••••••" required>
+                                <input type="password" id="loginPassword" placeholder="••••••••••••" required>
                                 <span class="toggle-password">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                                 </span>
@@ -139,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <label class="remember-me"><input type="checkbox"> Remember Me</label>
                             <a href="#" class="forgot-password">Forgot Password?</a>
                         </div>
-                        <button type="button" class="auth-submit-btn">SIGN IN</button>
+                        <button type="submit" class="auth-submit-btn">SIGN IN</button>
                     </form>
                     
                     <p class="auth-switch-text">Don't have an account? <a href="#" id="switchToSignup">Sign Up &rarr;</a></p>
@@ -149,20 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="auth-form-wrapper" id="signupFormWrapper" style="display: none;">
                     <h2>Create Account</h2>
                     <p class="auth-subtitle">Join XrayDx and explore AI-powered fracture detection.</p>
+                    <div id="signupMessage" style="margin-bottom: 15px; font-size: 0.9rem;"></div>
                     
                     <form id="signupForm">
                         <div class="input-group">
                             <label>FULL NAME</label>
-                            <input type="text" required>
+                            <input type="text" id="signupName" required>
                         </div>
                         <div class="input-group">
                             <label>EMAIL ADDRESS</label>
-                            <input type="email" required>
+                            <input type="email" id="signupEmail" required>
                         </div>
                         <div class="input-group">
                             <label>PASSWORD</label>
                             <div class="password-wrapper">
-                                <input type="password" required id="signupPassword">
+                                <input type="password" required id="signupPassword" minlength="6">
                                 <span class="toggle-password">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                                 </span>
@@ -174,13 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="input-group">
                             <label>CONFIRM PASSWORD</label>
                             <div class="password-wrapper">
-                                <input type="password" required>
+                                <input type="password" id="signupConfirmPassword" required minlength="6">
                                 <span class="toggle-password">
                                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
                                 </span>
                             </div>
                         </div>
-                        <button type="button" class="auth-submit-btn">CREATE ACCOUNT</button>
+                        <button type="submit" class="auth-submit-btn">CREATE ACCOUNT</button>
                     </form>
                     
                     <p class="auth-switch-text">Already have an account? <a href="#" id="switchToLogin">Sign In &rarr;</a></p>
@@ -317,6 +323,112 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // Supabase Auth Integration
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+    const signupName = document.getElementById('signupName');
+    const signupEmail = document.getElementById('signupEmail');
+    const signupPassword = document.getElementById('signupPassword');
+    const signupConfirmPassword = document.getElementById('signupConfirmPassword');
+    const loginMessage = document.getElementById('loginMessage');
+    const signupMessage = document.getElementById('signupMessage');
+    const navAuth = document.querySelector('.nav-auth');
+
+    // Handle Session State
+    sbClient.auth.onAuthStateChange((event, session) => {
+        if (session) {
+            const email = session.user.email;
+            navAuth.innerHTML = `
+                <span style="color: #fff; margin-right: 15px; font-weight: 500; white-space: nowrap;">Welcome back, Chief!!</span>
+                <a href="#" id="logoutBtn" class="login-btn">Logout</a>
+            `;
+            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                await sbClient.auth.signOut();
+            });
+        } else {
+            navAuth.innerHTML = `
+                <a href="#login" class="login-btn">Login</a>
+                <a href="#signup" class="signup-btn">Sign Up</a>
+            `;
+            // Re-bind listeners for newly injected buttons
+            document.querySelector('.login-btn').addEventListener('click', (e) => {
+                e.preventDefault(); openModal('login');
+            });
+            document.querySelector('.signup-btn').addEventListener('click', (e) => {
+                e.preventDefault(); openModal('signup');
+            });
+        }
+    });
+
+    // Handle Login
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginMessage.style.color = 'inherit';
+        loginMessage.innerText = 'Signing in...';
+        
+        const { data, error } = await sbClient.auth.signInWithPassword({
+            email: loginEmail.value,
+            password: loginPassword.value
+        });
+        
+        if (error) {
+            loginMessage.style.color = '#ff4444';
+            loginMessage.innerText = error.message;
+        } else {
+            loginMessage.style.color = '#00C851';
+            loginMessage.innerText = 'Success!';
+            loginForm.reset();
+            setTimeout(closeModal, 1000);
+        }
+    });
+
+    // Handle Signup
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        signupMessage.style.color = 'inherit';
+        
+        if (signupPassword.value !== signupConfirmPassword.value) {
+            signupMessage.style.color = '#ff4444';
+            signupMessage.innerText = "Passwords do not match.";
+            return;
+        }
+        
+        signupMessage.innerText = 'Creating account...';
+        
+        const { data, error } = await sbClient.auth.signUp({
+            email: signupEmail.value,
+            password: signupPassword.value,
+            options: {
+                data: { full_name: signupName.value }
+            }
+        });
+        
+        if (error) {
+            signupMessage.style.color = '#ff4444';
+            signupMessage.innerText = error.message;
+        } else {
+            signupMessage.style.color = '#00C851';
+            signupMessage.innerText = 'Account created successfully! You can now sign in.';
+            signupForm.reset();
+        }
+    });
+
+    // Protect Predict Links
+    document.addEventListener('click', async (e) => {
+        const link = e.target.closest('a');
+        if (link && link.getAttribute('href') === 'predict.html') {
+            const { data: { session } } = await sbClient.auth.getSession();
+            if (!session) {
+                e.preventDefault();
+                openModal('login');
+                loginMessage.style.color = '#ffbb33';
+                loginMessage.innerText = 'Please sign in to access fracture prediction.';
+            }
+        }
+    });
 });
 
 // --- Predict Page Logic ---
@@ -370,7 +482,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Predict Action flow
-    predictActionBtn.addEventListener('click', () => {
+    predictActionBtn.addEventListener('click', async () => {
+        const { data: { session } } = await sbClient.auth.getSession();
+        if (!session) {
+            document.body.classList.add('modal-open');
+            document.getElementById('authModalOverlay').classList.add('active');
+            document.getElementById('signupFormWrapper').style.display = 'none';
+            document.getElementById('loginFormWrapper').style.display = 'block';
+            const loginMessage = document.getElementById('loginMessage');
+            loginMessage.style.color = '#ffbb33';
+            loginMessage.innerText = 'Please sign in to access fracture prediction.';
+            return;
+        }
+
         // Hide predict button
         predictActionWrapper.style.display = 'none';
         
