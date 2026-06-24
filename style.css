@@ -184,12 +184,15 @@ canvas {
 }
 
 .iit-bhu-link {
+    position: absolute;
+    top: 85px;
+    right: 50px;
     display: flex;
     align-items: center;
-    margin-left: 15px;
     padding: 0 !important;
     border: none !important;
     background: transparent !important;
+    z-index: 105;
 }
 
 .iit-bhu-link:hover {
@@ -215,6 +218,10 @@ canvas {
     .iit-bhu-logo {
         height: 38px;
     }
+    .iit-bhu-link {
+        right: 30px;
+        top: 80px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -225,7 +232,9 @@ canvas {
         object-position: left center;
     }
     .iit-bhu-link {
-        margin-left: 5px;
+        top: 20px;
+        right: 20px;
+        position: fixed;
     }
 }
 
