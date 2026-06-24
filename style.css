@@ -130,6 +130,8 @@ canvas {
     background: linear-gradient(90deg, #ffffff, #777777);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 20px;
     flex: 1;
 }
 
