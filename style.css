@@ -205,7 +205,7 @@ canvas {
 }
 
 .iit-bhu-logo {
-    height: 55px;
+    height: 75px;
     width: auto;
     display: block;
     transition: all 0.3s ease;
@@ -219,7 +219,7 @@ canvas {
 
 @media (max-width: 1024px) {
     .iit-bhu-logo {
-        height: 45px;
+        height: 55px;
     }
 }
 
