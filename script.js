@@ -501,42 +501,107 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show loading state
         predictionLoading.style.display = 'flex';
         
-        // Simulate loading phases
+        // Setup loading phases text cycle
         const phases = [
-            "Analyzing X-ray...",
-            "Running fracture localization...",
+            "Uploading image...",
+            "Running AI inference...",
+            "Analyzing bone structure...",
             "Generating diagnostic report..."
         ];
-        
         let currentPhase = 0;
         loadingText.innerText = phases[0];
-        
         const phaseInterval = setInterval(() => {
-            currentPhase++;
-            if (currentPhase < phases.length) {
-                loadingText.innerText = phases[currentPhase];
+            currentPhase = (currentPhase + 1) % phases.length;
+            loadingText.innerText = phases[currentPhase];
+        }, 1200);
+
+        try {
+            // Build FormData
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            // Call FastAPI backend
+            const response = await fetch('http://127.0.0.1:8000/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.detail || "Prediction failed");
             }
-        }, 1000); // Change text every second
-        
-        // Final reveal
-        setTimeout(() => {
-            clearInterval(phaseInterval);
+
+            const data = await response.json();
             
-            // Hide loading
+            // Clear loading
+            clearInterval(phaseInterval);
             predictionLoading.style.display = 'none';
             
+            // Populate Dashboard
+            const resultImg = document.getElementById('resultImage');
+            if (resultImg) {
+                resultImg.src = 'http://127.0.0.1:8000' + data.annotated_image;
+            }
+            
+            // Hide placeholder bounding box if it exists
+            const bbPlaceholder = document.querySelector('.bounding-box-placeholder');
+            if (bbPlaceholder) bbPlaceholder.style.display = 'none';
+
+            const statusText = document.getElementById('statusText');
+            const statusDescription = document.getElementById('statusDescription');
+            if (statusText) {
+                if (data.fracture_detected) {
+                    statusText.innerText = 'Fracture Detected';
+                    if (statusDescription) statusDescription.innerText = 'The model identified findings consistent with a fracture.';
+                    statusText.className = 'metric-title text-red';
+                    statusText.parentElement.previousElementSibling.className = 'icon-box icon-red';
+                    statusText.parentElement.previousElementSibling.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+                } else {
+                    statusText.innerText = 'No Fracture Detected';
+                    if (statusDescription) statusDescription.innerText = 'The model did not identify findings consistent with a fracture.';
+                    statusText.className = 'metric-title text-green';
+                    statusText.parentElement.previousElementSibling.className = 'icon-box icon-green';
+                    statusText.parentElement.previousElementSibling.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+                }
+            }
+
+            const typeText = document.getElementById('typeText');
+            if (typeText) typeText.innerText = 'N/A'; // Hide class names by default
+
+            const confValue = document.getElementById('confidenceValue');
+            if (confValue) confValue.innerText = (data.confidence * 100).toFixed(1) + '%';
+
+            const summaryText = document.getElementById('summaryText');
+            if (summaryText) summaryText.innerText = data.analysis_summary;
+
+            const recList = document.getElementById('recList');
+            if (recList && data.recommendations) {
+                recList.innerHTML = '';
+                data.recommendations.forEach(rec => {
+                    recList.innerHTML += `<li><span class="check-icon">✓</span> ${rec}</li>`;
+                });
+            }
+
             // Show dashboard
             predictionDashboard.style.display = 'block';
-            
-            // Smooth scroll to results
             predictionDashboard.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
             // Animate confidence bar
             setTimeout(() => {
-                confidenceBar.style.width = '92.8%';
+                confidenceBar.style.width = (data.confidence * 100) + '%';
+                if (!data.fracture_detected) {
+                    confidenceBar.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
+                } else {
+                    confidenceBar.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+                }
             }, 300);
-            
-        }, 3000); // 3 seconds total loading simulation
+
+        } catch (err) {
+            clearInterval(phaseInterval);
+            predictionLoading.style.display = 'none';
+            alert('Error during prediction: ' + err.message);
+            predictActionWrapper.style.display = 'block';
+        }
     });
 });
 

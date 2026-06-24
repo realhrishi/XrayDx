@@ -30,3 +30,16 @@ Thumbs.db
 dist/
 build/
 .output/
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+backend/uploads/
+backend/results/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
