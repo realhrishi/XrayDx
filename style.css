@@ -183,6 +183,52 @@ canvas {
     transform: translateY(-2px);
 }
 
+.iit-bhu-link {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.iit-bhu-link:hover {
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.iit-bhu-logo {
+    height: 45px;
+    width: auto;
+    display: block;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0px 0px 2px rgba(255, 255, 255, 0.7)) brightness(1.4) contrast(1.2);
+}
+
+.iit-bhu-link:hover .iit-bhu-logo {
+    transform: scale(1.04);
+    filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, 0.85)) brightness(1.5) contrast(1.2);
+}
+
+@media (max-width: 1024px) {
+    .iit-bhu-logo {
+        height: 38px;
+    }
+}
+
+@media (max-width: 768px) {
+    .iit-bhu-logo {
+        height: 38px;
+        width: 38px;
+        object-fit: cover;
+        object-position: left center;
+    }
+    .iit-bhu-link {
+        margin-left: 5px;
+    }
+}
+
 /* Home Page Specific Content Overlay */
 .content-overlay {
     position: relative;
