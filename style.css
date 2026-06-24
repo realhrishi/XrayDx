@@ -55,9 +55,8 @@ canvas {
     z-index: 1; /* Keep canvas behind text */
 }
 
-/* Base Page Padding for non-home pages */
 .page-container {
-    padding-top: 100px;
+    padding-top: 150px;
     min-height: calc(100vh - 70px);
     padding-bottom: 80px;
     display: flex;
@@ -77,6 +76,15 @@ canvas {
     align-items: center;
     z-index: 10;
     position: relative;
+}
+
+.showcase-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 150px 20px 50px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
 }
 
 /* Animation utilities - Default to visible to prevent complete loss of content */
@@ -198,23 +206,19 @@ canvas {
     background: transparent !important;
 }
 
-.iit-bhu-link:hover {
-    background: transparent !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
 .iit-bhu-logo {
-    height: 75px;
+    height: 60px;
     width: auto;
     display: block;
-    transition: all 0.3s ease;
-    filter: drop-shadow(0px 0px 2px rgba(255, 255, 255, 0.7)) brightness(1.4) contrast(1.2);
+    transition: transform 0.3s ease;
+    background-color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    image-rendering: high-quality;
 }
 
 .iit-bhu-link:hover .iit-bhu-logo {
     transform: scale(1.04);
-    filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, 0.85)) brightness(1.5) contrast(1.2);
 }
 
 @media (max-width: 1024px) {
@@ -460,6 +464,25 @@ canvas {
     background: linear-gradient(90deg, #ffffff, #aaaaaa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.nav-menu {
+    display: flex;
+    flex: 3;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    color: #fff;
+    z-index: 200;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
 }
 
 .about-header .subtitle {
@@ -1277,17 +1300,54 @@ body.modal-open {
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        padding: 15px 20px;
+        /* Keep flex-direction row to keep logo and hamburger inline */
+    }
+    
+    .hamburger {
+        display: block;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 100px;
+        transition: right 0.4s ease;
+        z-index: 150;
+        border-left: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+        flex: none;
+        margin-bottom: 40px;
+    }
+
+    .nav-auth {
+        flex-direction: column;
+        flex: none;
+        gap: 20px;
+    }
+
     body.bg-page {
         background-position: center top 80px;
     }
-    .navbar {
-        padding: 15px 20px;
-        flex-direction: column;
-        gap: 15px;
-    }
-    .nav-links {
-        gap: 15px;
-    }
+    
     .text-section h1, .page-header h1 { font-size: 2.5rem; }
     .text-section h2 { font-size: 2rem; }
     .text-section p { font-size: 1rem; }

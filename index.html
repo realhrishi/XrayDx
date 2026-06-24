@@ -16,7 +16,15 @@
             </a>
             <div class="logo">XrayDx</div>
         </div>
-        <ul class="nav-links">
+        <div class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('active')">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <ul class="nav-links">
             <li><a href="index.html" class="active">Home</a></li>
             <li><a href="predict.html">Predict</a></li>
             <li><a href="about.html">About</a></li>
@@ -25,6 +33,7 @@
         <div class="nav-auth">
             <a href="#" class="login-btn">Login</a>
             <a href="#" class="signup-btn">Sign Up</a>
+        </div>
         </div>
     </nav>
 
