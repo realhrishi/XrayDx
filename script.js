@@ -416,19 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Protect Predict Links
-    document.addEventListener('click', async (e) => {
-        const link = e.target.closest('a');
-        if (link && link.getAttribute('href') === 'predict.html') {
-            const { data: { session } } = await sbClient.auth.getSession();
-            if (!session) {
-                e.preventDefault();
-                openModal('login');
-                loginMessage.style.color = '#ffbb33';
-                loginMessage.innerText = 'Please sign in to access fracture prediction.';
-            }
-        }
-    });
+
 });
 
 // --- Predict Page Logic ---
@@ -483,18 +471,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Predict Action flow
     predictActionBtn.addEventListener('click', async () => {
-        const { data: { session } } = await sbClient.auth.getSession();
-        if (!session) {
-            document.body.classList.add('modal-open');
-            document.getElementById('authModalOverlay').classList.add('active');
-            document.getElementById('signupFormWrapper').style.display = 'none';
-            document.getElementById('loginFormWrapper').style.display = 'block';
-            const loginMessage = document.getElementById('loginMessage');
-            loginMessage.style.color = '#ffbb33';
-            loginMessage.innerText = 'Please sign in to access fracture prediction.';
-            return;
-        }
-
         // Hide predict button
         predictActionWrapper.style.display = 'none';
         
